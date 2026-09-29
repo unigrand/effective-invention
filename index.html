@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f4ed">
+  <meta name="description" content="Writing, translation, and bilingual storytelling by Your Name.">
+  <title>Your Name — Writing &amp; Translation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3f4ed;
+      --ink: #173d35;
+      --muted: #62756e;
+      --line: #d3dbd0;
+      --green: #215e4d;
+      --lime: #d8f169;
+      --coral: #e9795d;
+      --white: #fffefa;
+      --serif: "DM Serif Display", Georgia, serif;
+      --sans: "DM Sans", "Noto Sans Thai", sans-serif;
+      --thai: "Noto Sans Thai", "DM Sans", sans-serif;
+      --mono: "DM Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    body[data-lang="th"] { font-family: var(--thai); }
+    a { color: inherit; }
+    button { font: inherit; }
+    .wrap { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .wordmark { font-size: 15px; font-weight: 700; text-decoration: none; }
+    .wordmark span { color: var(--coral); }
+    .nav-tools, nav, .lang-switch { display: flex; align-items: center; }
+    .nav-tools { gap: 38px; }
+    nav { gap: 26px; }
+    nav a { font-size: 13px; text-decoration: none; color: var(--muted); }
+    nav a:hover, .text-link:hover { color: var(--green); }
+    .lang-switch {
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.45);
+    }
+    .lang-switch button {
+      min-width: 38px;
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .lang-switch button[aria-pressed="true"] { background: var(--ink); color: white; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 70px;
+      align-items: center;
+      padding-block: 72px 86px;
+      animation: arrive .7s ease both;
+    }
+    .eyebrow, .section-index, .tag, .sample-label, .case-meta, .footer-note {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .eyebrow { margin: 0 0 23px; color: var(--green); font-size: 11px; }
+    h1 {
+      max-width: 570px;
+      margin: 0;
+      font: 400 clamp(58px, 7.2vw, 90px)/.99 var(--serif);
+      letter-spacing: 0;
+    }
+    h1 .hero-accent { color: var(--coral); font-style: italic; }
+    .hero-copy {
+      max-width: 420px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    [data-lang="th"] .hero-copy { line-height: 1.95; }
+    .hero-links { display: flex; align-items: center; gap: 25px; margin-top: 30px; }
+    .button-link {
+      display: inline-flex;
+      min-height: 47px;
+      align-items: center;
+      gap: 14px;
+      padding: 0 19px;
+      background: var(--green);
+      color: white;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .button-link:hover { background: var(--ink); transform: translateY(-2px); }
+    .button-link span { color: var(--lime); font-size: 17px; }
+    .text-link { color: var(--muted); font-size: 13px; text-underline-offset: 4px; }
+    .hero-art {
+      position: relative;
+      min-height: 440px;
+      overflow: hidden;
+      background: #dce8d8;
+    }
+    .hero-art img { width: 100%; height: 440px; object-fit: cover; object-position: center 56%; display: block; }
+    .art-caption {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      padding: 10px 13px;
+      background: var(--lime);
+      color: var(--ink);
+      font: 10px var(--mono);
+      text-transform: uppercase;
+    }
+    .hero-stamp {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: grid;
+      width: 68px;
+      height: 68px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--coral);
+      color: white;
+      font: 24px var(--serif);
+      transform: rotate(-12deg);
+    }
+
+    .ticker { overflow: hidden; background: var(--lime); color: var(--ink); }
+    .ticker-inner {
+      width: max-content;
+      display: flex;
+      gap: 32px;
+      padding: 14px 0;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+    }
+    .ticker-inner span::after { content: "✳"; margin-left: 32px; color: var(--coral); }
+
+    section.content-section { padding-block: 92px; border-bottom: 1px solid var(--line); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 34px; }
+    .section-index { margin: 0 0 12px; color: var(--coral); font-size: 10px; }
+    h2 { margin: 0; font: 400 46px/1.1 var(--serif); letter-spacing: 0; }
+    .section-intro { max-width: 350px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .samples-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .sample-card {
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      padding: 25px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      transition: transform .2s, border-color .2s;
+    }
+    .sample-card:hover { transform: translateY(-4px); border-color: var(--green); }
+    .sample-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .tag { color: var(--green); font-size: 9px; }
+    .sample-number { color: #a5b2a9; font: 11px var(--mono); }
+    .sample-card h3 { margin: 28px 0 20px; font: 400 25px/1.2 var(--serif); }
+    .sample-pair { display: grid; gap: 12px; }
+    .sample-block { padding-top: 10px; border-top: 1px solid var(--line); }
+    .sample-label { margin: 0 0 7px; color: var(--muted); font-size: 8px; }
+    .sample-text { margin: 0; font-size: 12px; line-height: 1.75; }
+    .sample-text.thai { font-family: var(--thai); font-size: 13px; line-height: 1.85; }
+    .sample-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 23px; color: var(--muted); font: 9px var(--mono); }
+    .sample-foot span:last-child { color: var(--coral); }
+
+    .case-list { border-top: 1px solid var(--line); }
+    details.case-study { border-bottom: 1px solid var(--line); }
+    details.case-study summary {
+      display: grid;
+      grid-template-columns: 60px 1fr auto 22px;
+      align-items: center;
+      gap: 18px;
+      min-height: 94px;
+      cursor: pointer;
+      list-style: none;
+    }
+    details.case-study summary::-webkit-details-marker { display: none; }
+    .case-no { color: var(--coral); font: 11px var(--mono); }
+    .case-title { font: 400 25px var(--serif); }
+    .case-meta { color: var(--muted); font-size: 9px; }
+    .case-toggle { color: var(--green); font: 22px var(--sans); text-align: center; transition: transform .2s; }
+    details[open] .case-toggle { transform: rotate(45deg); }
+    .case-body { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; padding: 0 40px 30px 78px; animation: arrive .35s ease both; }
+    .case-body p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .case-body h4 { margin: 0 0 9px; font: 10px var(--mono); color: var(--green); text-transform: uppercase; }
+    .case-body .thai-copy { font-family: var(--thai); line-height: 1.9; }
+    .case-mark { display: inline-block; margin-top: 13px; padding: 6px 8px; background: #e8ede5; color: var(--green); font: 9px var(--mono); text-transform: uppercase; }
+
+    .about-band { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; align-items: start; padding-block: 88px; }
+    .about-band h2 { max-width: 310px; }
+    .about-copy { max-width: 570px; }
+    .about-copy > p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.9; }
+    .services { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 25px; }
+    .services span { padding: 8px 11px; border: 1px solid var(--line); color: var(--green); font: 9px var(--mono); text-transform: uppercase; }
+    .contact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding-block: 43px;
+      border-top: 1px solid var(--line);
+    }
+    .contact p { margin: 0; color: var(--muted); font-size: 12px; }
+    .contact h2 { margin-top: 8px; font-size: 35px; }
+    .contact .button-link { flex: 0 0 auto; }
+    footer { display: flex; justify-content: space-between; gap: 20px; padding-block: 20px 30px; color: var(--muted); }
+    .footer-note { font-size: 9px; }
+
+    [data-en], [data-th] { display: none; }
+    body[data-lang="en"] [data-en], body[data-lang="th"] [data-th] { display: revert; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 800px) {
+      .wrap { width: min(100% - 40px, 620px); }
+      .nav-tools { gap: 15px; }
+      nav { gap: 14px; }
+      nav a { font-size: 11px; }
+      .hero { grid-template-columns: 1fr 1fr; gap: 28px; padding-block: 52px 60px; }
+      .hero-art, .hero-art img { min-height: 360px; height: 360px; }
+      h1 { font-size: clamp(54px, 8vw, 72px); }
+      .hero-copy { font-size: 14px; }
+      .samples-grid { grid-template-columns: 1fr 1fr; }
+      .sample-card:last-child { grid-column: 1 / -1; min-height: 330px; }
+      .about-band { gap: 40px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: calc(100% - 36px); }
+      .topbar { min-height: 68px; flex-wrap: wrap; gap: 10px; padding-block: 10px; }
+      .nav-tools { width: 100%; justify-content: space-between; }
+      nav { display: flex; gap: 12px; }
+      .hero { grid-template-columns: 1fr; gap: 34px; padding-block: 51px 48px; }
+      h1 { max-width: 420px; font-size: 66px; }
+      .hero-copy { max-width: 380px; margin-top: 18px; }
+      .hero-links { gap: 17px; }
+      .hero-art, .hero-art img { min-height: 330px; height: 330px; }
+      section.content-section { padding-block: 66px; }
+      .section-head { display: block; margin-bottom: 25px; }
+      h2 { font-size: 39px; }
+      .section-intro { margin-top: 14px; }
+      .samples-grid { grid-template-columns: 1fr; }
+      .sample-card, .sample-card:last-child { grid-column: auto; min-height: 350px; }
+      details.case-study summary { grid-template-columns: 32px 1fr 18px; gap: 12px; min-height: 82px; }
+      .case-meta { grid-column: 2; grid-row: 2; margin-top: -17px; }
+      .case-title { font-size: 20px; }
+      .case-toggle { grid-column: 3; grid-row: 1 / 3; }
+      .case-body { grid-template-columns: 1fr; gap: 18px; padding: 0 10px 25px 44px; }
+      .about-band { grid-template-columns: 1fr; gap: 20px; padding-block: 66px; }
+      .about-band h2 { max-width: 360px; }
+      .about-copy > p { font-size: 14px; }
+      .contact { align-items: flex-start; flex-direction: column; padding-block: 33px; }
+      .contact h2 { font-size: 31px; }
+      footer { font-size: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body data-lang="en">
+  <header class="topbar wrap">
+    <a class="wordmark" href="#home" aria-label="Your Name, home"><span data-en>Your Name</span><span data-th>ชื่อของคุณ</span><span>.</span></a>
+    <div class="nav-tools">
+      <nav aria-label="Main navigation">
+        <a href="#work"><span data-en>Selected work</span><span data-th>ผลงาน</span></a>
+        <a href="#cases"><span data-en>Case studies</span><span data-th>กรณีศึกษา</span></a>
+        <a href="#about"><span data-en>About</span><span data-th>เกี่ยวกับ</span></a>
+      </nav>
+      <div class="lang-switch" role="group" aria-label="Choose language">
+        <button type="button" data-set-lang="en" aria-pressed="true" lang="en">EN</button>
+        <button type="button" data-set-lang="th" aria-pressed="false" lang="th">ไทย</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap" id="home">
+      <div>
+        <p class="eyebrow"><span data-en>Independent writer &amp; translator</span><span data-th>นักเขียนและนักแปลอิสระ</span></p>
+        <h1><span data-en>Your Name</span><span data-th>ชื่อของคุณ</span>.<br><span data-en>Words,</span><span data-th>ถ้อยคำ</span><br><span data-en><span class="hero-accent">well</span> traveled.</span><span data-th><span class="hero-accent">ที่เดินทางได้</span></span></h1>
+        <p class="hero-copy"><span data-en>I write, translate, and adapt ideas between English and Thai, keeping each voice clear, human, and at home in its new language.</span><span data-th>ฉันเขียน แปล และถ่ายทอดความคิดระหว่างภาษาอังกฤษกับภาษาไทย เพื่อให้ทุกข้อความยังคงชัดเจน เป็นธรรมชาติ และเข้าถึงผู้อ่านในภาษาใหม่</span></p>
+        <div class="hero-links">
+          <a class="button-link" href="#work"><span data-en>Explore the work</span><span data-th>ดูผลงาน</span><span aria-hidden="true">↘</span></a>
+          <a class="text-link" href="#about"><span data-en>A little about me</span><span data-th>รู้จักฉัน</span></a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="A writer working at a desk with an open notebook">
+        <span class="hero-stamp" aria-hidden="true">อ / A</span>
+        <span class="art-caption"><span data-en>Meaning, made memorable</span><span data-th>ความหมายที่น่าจดจำ</span></span>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-inner"><span>English to Thai</span><span>Thai to English</span><span>Writing</span><span>Transcreation</span><span>English to Thai</span><span>Thai to English</span><span>Writing</span><span>Transcreation</span></div></div>
+
+    <section class="content-section" id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="section-index">01 / <span data-en>Selected work</span><span data-th>ผลงานคัดสรร</span></p><h2><span data-en>Small windows<br>into the work.</span><span data-th>ตัวอย่างเล็ก ๆ<br>จากงานของฉัน</span></h2></div>
+          <p class="section-intro"><span data-en>Three short samples across brand voice, editorial writing, and translation. Each one is shown in both languages.</span><span data-th>ตัวอย่างงานสั้น ๆ ด้านน้ำเสียงแบรนด์ งานเขียน และงานแปล พร้อมข้อความทั้งสองภาษา</span></p>
+        </div>
+        <div class="samples-grid">
+          <article class="sample-card">
+            <div class="sample-top"><span class="tag"><span data-en>Brand voice</span><span data-th>น้ำเสียงแบรนด์</span></span><span class="sample-number">01</span></div>
+            <h3><span data-en>A slower kind of morning</span><span data-th>เช้าที่ค่อยเป็นค่อยไป</span></h3>
+            <div class="sample-pair">
+              <div class="sample-block"><p class="sample-label">English</p><p class="sample-text">Good mornings aren't measured in minutes. They're made in the pause before the first sip.</p></div>
+              <div class="sample-block"><p class="sample-label">ภาษาไทย</p><p class="sample-text thai" lang="th">เช้าที่ดีไม่ได้วัดกันเป็นนาที แต่อยู่ในช่วงเวลาสั้น ๆ ก่อนจิบแรกของวัน</p></div>
+            </div>
+            <div class="sample-foot"><span>Concept sample · Lifestyle</span><span>EN ↔ TH</span></div>
+          </article>
+          <article class="sample-card">
+            <div class="sample-top"><span class="tag"><span data-en>Editorial</span><span data-th>บทความ</span></span><span class="sample-number">02</span></div>
+            <h3><span data-en>Where the city exhales</span><span data-th>มุมพักใจของเมือง</span></h3>
+            <div class="sample-pair">
+              <div class="sample-block"><p class="sample-label">English</p><p class="sample-text">At the canal's edge, Bangkok lowers its voice. Long-tail boats pass; the neighborhood keeps its own time.</p></div>
+              <div class="sample-block"><p class="sample-label">ภาษาไทย</p><p class="sample-text thai" lang="th">ริมคลอง กรุงเทพฯ ลดเสียงลง เรือหางยาวแล่นผ่าน ส่วนย่านนี้ก็ยังเดินตามจังหวะของตัวเอง</p></div>
+            </div>
+            <div class="sample-foot"><span>Concept sample · Travel</span><span>EN ↔ TH</span></div>
+          </article>
+          <article class="sample-card">
+            <div class="sample-top"><span class="tag"><span data-en>Translation</span><span data-th>งานแปล</span></span><span class="sample-number">03</span></div>
+            <h3><span data-en>Care, in every detail</span><span data-th>ใส่ใจในทุกรายละเอียด</span></h3>
+            <div class="sample-pair">
+              <div class="sample-block"><p class="sample-label">English</p><p class="sample-text">We source thoughtfully, make things to last, and leave room for the everyday rituals that make them yours.</p></div>
+              <div class="sample-block"><p class="sample-label">ภาษาไทย</p><p class="sample-text thai" lang="th">เราเลือกสรรอย่างใส่ใจ สร้างสรรค์เพื่อการใช้งานที่ยาวนาน และเว้นพื้นที่ให้คุณเติมความหมายลงในทุกวัน</p></div>
+            </div>
+            <div class="sample-foot"><span>Concept sample · Product</span><span>EN ↔ TH</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="cases">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="section-index">02 / <span data-en>Case studies</span><span data-th>กรณีศึกษา</span></p><h2><span data-en>Good words do<br>good work.</span><span data-th>ถ้อยคำที่ดี<br>สร้างงานที่ดี</span></h2></div>
+          <p class="section-intro"><span data-en>Selected concept projects: a look at the decisions behind the words, from first brief to final read.</span><span data-th>โปรเจกต์ตัวอย่างที่เล่าถึงเบื้องหลังการเลือกใช้คำ ตั้งแต่โจทย์แรกจนถึงฉบับพร้อมอ่าน</span></p>
+        </div>
+        <div class="case-list">
+          <details class="case-study">
+            <summary><span class="case-no">01</span><span class="case-title"><span data-en>A neighborhood, in two voices</span><span data-th>เรื่องเล่าของย่านในสองภาษา</span></span><span class="case-meta">EDITORIAL · EN / TH</span><span class="case-toggle" aria-hidden="true">+</span></summary>
+            <div class="case-body">
+              <div><h4><span data-en>The brief</span><span data-th>โจทย์</span></h4><p><span data-en>Introduce a Bangkok riverside neighborhood to curious visitors without turning everyday life into a tourist checklist.</span><span data-th>แนะนำย่านริมแม่น้ำในกรุงเทพฯ ให้ผู้มาเยือนได้รู้จัก โดยไม่ทำให้ชีวิตประจำวันกลายเป็นเพียงเช็กลิสต์ท่องเที่ยว</span></p></div>
+              <div><h4><span data-en>The approach</span><span data-th>แนวทาง</span></h4><p><span data-en>Build the story around local routines, then adapt the rhythm and references for each audience instead of translating line by line.</span><span data-th>เล่าเรื่องผ่านกิจวัตรของคนในพื้นที่ แล้วปรับจังหวะและบริบทให้เหมาะกับผู้อ่านแต่ละกลุ่ม แทนการแปลทีละประโยค</span></p><span class="case-mark">Concept project</span></div>
+            </div>
+          </details>
+          <details class="case-study">
+            <summary><span class="case-no">02</span><span class="case-title"><span data-en>One launch, two natural voices</span><span data-th>เปิดตัวครั้งเดียว สื่อสารได้สองภาษา</span></span><span class="case-meta">TRANSCREATION · EN / TH</span><span class="case-toggle" aria-hidden="true">+</span></summary>
+            <div class="case-body">
+              <div><h4><span data-en>The brief</span><span data-th>โจทย์</span></h4><p><span data-en>Give an imagined refillable skincare line a launch message that feels optimistic, never preachy, in English and Thai.</span><span data-th>สร้างข้อความเปิดตัวสำหรับแบรนด์สกินแคร์แบบเติมได้ ให้ความรู้สึกมีความหวังโดยไม่สั่งสอน ทั้งภาษาอังกฤษและภาษาไทย</span></p></div>
+              <div><h4><span data-en>The approach</span><span data-th>แนวทาง</span></h4><p><span data-en>Start with the shared idea of keeping what works. Write a distinct headline for each language, then align the supporting copy and calls to action.</span><span data-th>เริ่มจากแนวคิดร่วมเรื่องการเก็บสิ่งที่ดีไว้ เขียนพาดหัวให้เป็นธรรมชาติในแต่ละภาษา แล้วค่อยปรับข้อความประกอบและคำชวนให้ลงตัว</span></p><span class="case-mark">Concept project</span></div>
+            </div>
+          </details>
+          <details class="case-study">
+            <summary><span class="case-no">03</span><span class="case-title"><span data-en>A welcome that feels like one</span><span data-th>ข้อความต้อนรับที่รู้สึกเป็นกันเอง</span></span><span class="case-meta">UX WRITING · EN / TH</span><span class="case-toggle" aria-hidden="true">+</span></summary>
+            <div class="case-body">
+              <div><h4><span data-en>The brief</span><span data-th>โจทย์</span></h4><p><span data-en>Make a first-time booking flow for a small guesthouse feel clear and reassuring on a phone.</span><span data-th>ทำให้ขั้นตอนจองที่พักขนาดเล็กสำหรับผู้ใช้ครั้งแรกรู้สึกชัดเจนและสบายใจบนหน้าจอมือถือ</span></p></div>
+              <div><h4><span data-en>The approach</span><span data-th>แนวทาง</span></h4><p><span data-en>Replace formal instructions with concise, warm prompts. Keep dates, policies, and next steps explicit in both language versions.</span><span data-th>แทนคำสั่งที่เป็นทางการด้วยข้อความสั้น กระชับ และอบอุ่น พร้อมระบุวัน เงื่อนไข และขั้นตอนถัดไปให้ชัดเจนในทั้งสองภาษา</span></p><span class="case-mark">Concept project</span></div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-band wrap" id="about">
+      <div><p class="section-index">03 / <span data-en>A little about me</span><span data-th>เกี่ยวกับฉัน</span></p><h2><span data-en>Thoughtful words.<br>Human voice.</span><span data-th>คำที่ใส่ใจ<br>เสียงที่เป็นมนุษย์</span></h2></div>
+      <div class="about-copy">
+        <p><span data-en>I'm a writer and English–Thai translator interested in the space between what a sentence says and what it makes someone feel. I help thoughtful teams find the words, tone, and local details that let a message travel without losing itself.</span><span data-th>ฉันเป็นนักเขียนและนักแปลอังกฤษ–ไทย สนใจพื้นที่ระหว่างความหมายของประโยคกับความรู้สึกที่ส่งต่อ ฉันช่วยทีมที่ใส่ใจค้นหาถ้อยคำ น้ำเสียง และรายละเอียดท้องถิ่น เพื่อให้ข้อความเดินทางได้โดยไม่สูญเสียตัวตน</span></p>
+        <div class="services"><span>Writing</span><span>Translation</span><span>Transcreation</span><span>Editing</span><span>EN ↔ TH</span></div>
+      </div>
+    </section>
+
+    <section class="contact wrap" id="contact">
+      <div><p><span data-en>Have a project in mind?</span><span data-th>มีโปรเจกต์ที่อยากคุยกันไหม</span></p><h2><span data-en>Let's find the right words.</span><span data-th>มาหาคำที่ใช่ไปด้วยกัน</span></h2></div>
+      <a class="button-link" href="mailto:your.email@example.com"><span data-en>Get in touch</span><span data-th>ติดต่อฉัน</span><span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="wrap"><a class="wordmark" href="#home"><span data-en>Your Name</span><span data-th>ชื่อของคุณ</span><span>.</span></a><span class="footer-note">Bangkok · Working everywhere</span><span class="footer-note">© <span id="year"></span> YOUR NAME</span></footer>
+  <script>
+    const languageButtons = document.querySelectorAll('[data-set-lang]');
+
+    function setLanguage(language) {
+      document.body.dataset.lang = language;
+      document.documentElement.lang = language;
+      languageButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.setLang === language));
+      });
+      try { localStorage.setItem('portfolio-language', language); } catch {}
+    }
+
+    languageButtons.forEach((button) => {
+      button.addEventListener('click', () => setLanguage(button.dataset.setLang));
+    });
+    try {
+      const savedLanguage = localStorage.getItem('portfolio-language');
+      if (savedLanguage === 'th' || savedLanguage === 'en') setLanguage(savedLanguage);
+    } catch {}
+    document.querySelector('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
